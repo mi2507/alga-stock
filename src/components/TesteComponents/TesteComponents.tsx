@@ -1,9 +1,16 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './TesteComponents.css'
 
-const TestComponents = () => (
-  <div className="TestComponents" > Test Components 
-  <p>feito por Michelle Regina</p>
-  </div>)
-
+function TestComponents(props: { name: string }) {
+  const [age, setAge] = useState(34)
+  
+  return <div className="TestComponents" > Test Components,
+     olá {props.name}, {age}
+    <button onClick={() => {
+      setAge (age +1)
+    }}> +
+    </button>
+  </div>
+}
+ 
 export default TestComponents
