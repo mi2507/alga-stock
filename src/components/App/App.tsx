@@ -15,14 +15,15 @@ function App() {
       <Header title="AlgaStock" />
 
       <Container>
-
-        <Button content="Botão" onClick={() => window.alert("isto é um teste!")} />
-
-        <Input label="street"
-          placeholder="E.g.: 15h Avenue"
-          value={street}
-          onChange= {e => setStreet (e.target.value)}
-        />
+        <ul>
+          {
+            ['Michelle', 'Daniela', 'Andre', 'Michelle'].map((name, index) =>{
+              return <li key={index}>
+              {name}
+            </li>
+            })
+          }
+        </ul>
 
       </Container>
       
