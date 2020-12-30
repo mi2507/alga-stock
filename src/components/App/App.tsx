@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import Header from './Header/Header';
+import Header from '../Header/';
+import Button from '../Button/';
 
 
 function App() {
@@ -8,7 +9,11 @@ function App() {
     <div className="App">
     
       <Header title="AlgaStock" />
-      App
+
+      <div className="Container">
+        <Button content="Botão" onClick = { () => window.alert ("isto é um teste!")} />
+      </div>
+    
     </div>  
   );
 }
