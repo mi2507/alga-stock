@@ -22,7 +22,7 @@ const ProductForm = () => {
     })
   }
 
-  return <Form onSubmit={() => console.log(form)}>
+  return <Form title="Product Form" onSubmit={() => console.log(form)}>
     <Input
       onChange={handleInputChange}
       name="name"
