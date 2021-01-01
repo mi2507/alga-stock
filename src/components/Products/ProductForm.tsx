@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-import Form from "../../shared/Form";
-import Input from "../../shared/Input";
-import Button from "../../shared/Button";
+import Form from '../../shared/Form'
+import Input from '../../shared/Input'
+import Button from '../../shared/Button'
+import { Product } from '../../shared/Table/Table.mockdata'
 
-const initialFormState = {
-  name: "",
-  price: "",
-  stock: "",
-};
+declare interface InitialFormState {
+  id?: number
+  name: string
+  price: string
+  stock: string
+}
 
 export interface ProductCreator {
   name: string
@@ -16,68 +18,102 @@ export interface ProductCreator {
   stock: number
 }
 
-declare interface ProductFormProps{
-onSubmit: (product: ProductCreator) => void
+declare interface ProductFormProps {
+  form?: Product
+  onSubmit?: (product: ProductCreator) => void
+  onUpdate?: (product: Product) => void
 }
 
+const ProductForm: React.FC<ProductFormProps> = (props) => {
+  const initialFormState: InitialFormState = props.form
+    ? {
+        id: props.form.id,
+        name: props.form.name,
+        price: String(props.form.price),
+        stock: String(props.form.stock),
+      }
+    : {
+        name: '',
+        price: '',
+        stock: ''
+      }
 
-const ProductForm: React.FC <ProductFormProps> = (props) => {
-  const [form, setForm] = useState(initialFormState);
+  const [form, setForm] = useState(initialFormState)
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = event.target;
+    const { value, name } = event.target
 
     setForm({
       ...form,
-      [name]: value,
-    });
-  };
+      [name]: value
+    })
+  }
 
-  const hendleFormSubmit = () => {
+  const updateProduct = (product: InitialFormState) => {
     const productDto = {
-      name: String (form.name),
-      price: parseFloat (form.price),
-      stock: Number (form.stock)
+      id: Number(product.id),
+      name: String(product.name),
+      price: parseFloat(product.price),
+      stock: Number(product.stock)
     }
-    props.onSubmit(productDto)
+
+    props.onUpdate &&
+      props.onUpdate(productDto)
+  }
+
+  const createProduct = (product: InitialFormState) => {
+    const productDto = {
+      name: String(product.name),
+      price: parseFloat(product.price),
+      stock: Number(product.stock)
+    }
+
+    props.onSubmit &&
+      props.onSubmit(productDto)
+  }
+
+  const handleFormSubmit = () => {
+    form.id
+      ? updateProduct(form)
+      : createProduct(form)
+    
     setForm(initialFormState)
- }
+  }
 
+  return <Form onSubmit={handleFormSubmit}>
+    <Input
+      onChange={handleInputChange}
+      value={form.name}
+      name="name"
+      label="Name"
+      placeholder="E.g.: Cookie"
+      required
+    />
+    <Input
+      onChange={handleInputChange}
+      value={form.price}
+      name="price"
+      label="Price"
+      type="number"
+      step="0.01"
+      min="0"
+      placeholder="E.g.: 1.25"
+      required
+    />
+    <Input
+      onChange={handleInputChange}
+      value={form.stock}
+      name="stock"
+      label="Stock"
+      type="number"
+      min="0"
+      placeholder="E.g.: 15"
+      required
+    />
+    <Button>
+      Submit
+    </Button>
+  </Form>
+}
 
-  return (
-    <Form title="Product Form" onSubmit={hendleFormSubmit}>
-      <Input
-        onChange={handleInputChange}
-        value={form.name}
-        name="name"
-        label="Name"
-        placeholder="E.g.: Cookie"
-        required
-      />
-      <Input
-        onChange={handleInputChange}
-        value={form.price}
-        name="price"
-        label="Price"
-        type="number"
-        step="0.01"
-        min="0"
-        placeholder="E.g.: 1.25"
-        required
-      />
-      <Input
-        onChange={handleInputChange}
-        value={form.stock}
-        name="stock"
-        label="Stock"
-        type="number"
-        min="0"
-        placeholder="E.g.: 15"
-        required
-      />
-      <Button>Submit</Button>
-    </Form>
-  );
-};
-
-export default ProductForm;
+export default ProductForm
