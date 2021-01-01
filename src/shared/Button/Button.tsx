@@ -1,5 +1,4 @@
 import React from 'react'
-import { JsxElement } from 'typescript'
 import './Button.css'
 
 declare interface ButtonProps {
