@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react'
 import Table, { TableHeader } from '../../shared/Table'
 import {
@@ -27,7 +28,14 @@ const ProductsCRUD: React.FC<ProductsCRUDProps> = (props) => {
   const [updatingProduct, setUpdatingProduct] = useState<Product | undefined>(undefined)
 
   async function fetchData() {
-    dispatch(getProducts())
+    try {
+      console.log('started')
+      await dispatch(getProducts())
+      Swal.fire('Uhu!', 'Fetch done', 'success')
+      console.log('done')
+    } catch (err) {
+      Swal.fire('Oops!', err.message, 'error')
+    }
   }
 
   useEffect(() => {
